@@ -7,8 +7,6 @@ def sort1(rank1 , pick1):
 
     list1 = [c for c in range(len(rank1))]
     list2 = rank1.copy() 
-    print(list1)
-    print(list2)
 
     i = 0
     while True:
