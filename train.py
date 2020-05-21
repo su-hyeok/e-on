@@ -194,24 +194,20 @@ while(True):
                 print("1~3사이의 값을 입력하세요")
     elif vari1 == 2:
         a.whole(f)
-        break
     elif vari1 == 3:
         while True:
-            thatnono = int(input("예약 현황을 확인하시겠습니까? 1 확인, 2 뒤로가기"))
-            if thatnono == 1:
-                if dothis == 1:
+            try:
+                thatnono = int(input("예약 현황을 확인하시겠습니까? 1 확인, 2 뒤로가기"))
+                if thatnono == 1:
                     a.check1(temp)
                     temp = a.confirm(temp,list_temp)
                     break
-                elif dothis == 2:
-                    a.check2(temp)
-                    temp = a.confirm(temp,list_temp)
+                elif thatnono ==2:
                     break
-            elif thatnono == 2:
-                break
-            else:
-                print("1~2사이의 값을 입력하세요")
+                else:
+                    print("1,2중 하나를 입력해 주세요")
+            except:
+                print("예약 현황이 없습니다")
             break
     else:
         print("1~4 사이의 값을 입력하여 주세요")
-        break
