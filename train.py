@@ -25,6 +25,7 @@ class reservation:      #시간 출발역 도착역 열차종류
         self.listplz2 = None # 선택한 기차표를 보기좋게 출력하기 위한 공간
         self.nono = None # 취소 선택지
         self.lines = None # 기차정보를 저장할 공간
+        self.f = None # 새로 바뀌는 기차정보
 
     def train(self): # 1번 입력 함수
         while True:
@@ -103,62 +104,54 @@ class reservation:      #시간 출발역 도착역 열차종류
         
 
     def choose(self): # 위에꺼 예약
-        self.listplz = []
-        self.listplz = self.line[self.line_1_temp].split()
-        if int(self.listplz[5]) == 0:
+        self.line[self.line_1_temp] = [self.line[self.line_1_temp].split(' ')]
+        print(self.line[self.line_1_temp][0][5])
+        if int(self.line[self.line_1_temp][0][5]) == 0:
             print("매진이어서 예약할 수 없습니다.")
         else:
+            self.line[self.line_1_temp][0][5] = int(self.line[self.line_1_temp][0][5]) - 1
             print("예약 완료")
-            self.listplz[5] = str(int(self.listplz[5]) - 1)
-            self.listplz2 = " ".join(self.listplz)
-            print(self.listplz2)
-            return (self.line_1_temp,self.listplz2)
-        return self.listplz2
+            print(self.line[self.line_1_temp][0])
+            print(self.line)
+            return(self.line)
 
     def temp1(self):
-        return self.listplz
+        return str(self.line[self.line_1_temp])
 
     def choose2(self): # 아래꺼 예약
-        self.listplz = []
-        self.listplz = self.line[self.line_2_temp].split()
-        if int(self.listplz[5]) == 0:
+        self.line[self.line_2_temp] = [self.line[self.line_2_temp].split(' ')]
+        print(self.line[self.line_2_temp][0][5])
+        if int(self.line[self.line_2_temp][0][5]) == 0:
             print("매진이어서 예약할 수 없습니다.")
         else:
+            self.line[self.line_2_temp][0][5] = int(self.line[self.line_2_temp][0][5]) - 1
             print("예약 완료")
-            self.listplz[5] = str(int(self.listplz[5]) - 1)
-            self.listplz2 = " ".join(self.listplz)
-            print(self.listplz2)
-            return (self.line_2_temp,self.listplz2)
-        return self.listplz2
+            print(self.line[self.line_2_temp][0])
+            print(self.line)
+            return(self.line)
 
     def temp2(self):
-        return self.listplz
+        return str(self.line[self.line_2_temp])
 
 
-    def confirm(self,listplz2,listplz): # 예매 취소
-        while True:
-            self.nono = int(input("취소하시겠습니까(예1,아니오2,뒤로가기3): "))
-            if self.nono == 1:
-                print("예매를 취소합니다")
-                listplz[5] = str(int(listplz[5]) + 1) 
-                listplz2 = " ".join(listplz)
-                print(listplz2)
-                return listplz2
-                break
-            elif self.nono == 2:
-                break
-            elif self.nono == 3:
-                break
-            else:
-                print("1~2 사이의 값을 입력하세요")
+    def confirm(self,line): # 예매 취소
+            while True:
+                self.nono = int(input("취소하시겠습니까(예1,아니오2,뒤로가기3): "))
+                if self.nono == 1:
+                    print("예매를 취소합니다")
+                    line = open("C:/Users/이수혁/Desktop/TrainList.txt",'r')
+                    return line
+                elif self.nono == 2:
+                    return line
+                elif self.nono == 3:
+                    return line
+                else:
+                    print("1~2 사이의 값을 입력하세요")
+    
 
-    def check1(self,listplz2): # 예매현황 보여주기(1번경우)
+    def check(self,checkList): # 예매현황 보여주기
         print("예약 현황입니다.")
-        print(listplz2[1])
-
-    def check2(self,listplz2): # 예매현황 보여주기(2번경우)
-        print("예약 현황입니다.")
-        print(listplz2[1])
+        print(checkList)
             
 
                     
@@ -166,7 +159,9 @@ class reservation:      #시간 출발역 도착역 열차종류
         self.lines = []
         self.lines = f.read()
         print(self.lines)
-
+    def whole2(self,line):
+        for i in range(21):
+            print(line[i])
 
 while(True):
     vari1 = int(input("메뉴를 입력해수세요(1:예약, 2:기차정보, 3:예매현황 및 취소, 4:프로그램 종료): ")) # 메인 메뉴
@@ -181,11 +176,13 @@ while(True):
         while True:
             dothis = int(input("위에꺼 예약1,아래꺼 예약2,뒤로가기3: "))
             if dothis == 1:
-                temp = a.choose()
-                list_temp = a.temp1()
+                temp = a.choose() # 예약한 기차정보 전체
+                temp_x = temp
+                list_temp = a.temp1() # 예약한 기차표
                 break
             elif dothis == 2:
                 temp = a.choose2()
+                temp_x = temp
                 list_temp = a.temp2()
                 break
             elif dothis == 3:
@@ -193,21 +190,28 @@ while(True):
             else:
                 print("1~3사이의 값을 입력하세요")
     elif vari1 == 2:
-        a.whole(f)
+        try:
+            a.whole2(temp)
+        except:
+            a.whole(f)
     elif vari1 == 3:
         while True:
+            thatnono = int(input("예약 현황을 확인하시겠습니까? 1 확인, 2 뒤로가기"))
             try:
-                thatnono = int(input("예약 현황을 확인하시겠습니까? 1 확인, 2 뒤로가기"))
                 if thatnono == 1:
-                    a.check1(temp)
-                    temp = a.confirm(temp,list_temp)
+                    a.check(list_temp)
+                    temp = a.confirm(temp)
+                    if temp_x != temp:
+                        del(list_temp)
+
                     break
-                elif thatnono ==2:
+                elif thatnono == 2:
                     break
                 else:
-                    print("1,2중 하나를 입력해 주세요")
+                    print("1~2사이의 값을 입력하세요")
             except:
-                print("예약 현황이 없습니다")
-            break
+                print("예약현황이 없습니다.")
+                break
     else:
         print("1~4 사이의 값을 입력하여 주세요")
+        break
