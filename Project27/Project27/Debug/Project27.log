@@ -1,0 +1,5 @@
+﻿  attendance.cpp
+C:\Users\이수혁\source\repos\Project27\Project27\attendance.cpp(25,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\이수혁\source\repos\Project27\Project27\attendance.cpp(94,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\이수혁\source\repos\Project27\Project27\attendance.cpp(98,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Project27.vcxproj -> C:\Users\이수혁\source\repos\Project27\Debug\Project27.exe
