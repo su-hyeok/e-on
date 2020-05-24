@@ -105,14 +105,12 @@ class reservation:      #시간 출발역 도착역 열차종류
 
     def choose(self): # 위에꺼 예약
         self.line[self.line_1_temp] = [self.line[self.line_1_temp].split(' ')]
-        print(self.line[self.line_1_temp][0][5])
         if int(self.line[self.line_1_temp][0][5]) == 0:
             print("매진이어서 예약할 수 없습니다.")
         else:
             self.line[self.line_1_temp][0][5] = int(self.line[self.line_1_temp][0][5]) - 1
             print("예약 완료")
             print(self.line[self.line_1_temp][0])
-            print(self.line)
             return(self.line)
 
     def temp1(self):
@@ -120,14 +118,12 @@ class reservation:      #시간 출발역 도착역 열차종류
 
     def choose2(self): # 아래꺼 예약
         self.line[self.line_2_temp] = [self.line[self.line_2_temp].split(' ')]
-        print(self.line[self.line_2_temp][0][5])
         if int(self.line[self.line_2_temp][0][5]) == 0:
             print("매진이어서 예약할 수 없습니다.")
         else:
             self.line[self.line_2_temp][0][5] = int(self.line[self.line_2_temp][0][5]) - 1
             print("예약 완료")
             print(self.line[self.line_2_temp][0])
-            print(self.line)
             return(self.line)
 
     def temp2(self):
