@@ -1,6 +1,7 @@
 #기차 예매 프로그램
 import numpy as np
 import datetime
+import os
 
 class reservation:      #시간 출발역 도착역 열차종류
     def __init__(self):
@@ -27,6 +28,7 @@ class reservation:      #시간 출발역 도착역 열차종류
         self.lines = None # 기차정보를 저장할 공간
         self.f = None # 새로 바뀌는 기차정보
 
+
     def train(self): # 1번 입력 함수
         while True:
             try:
@@ -35,115 +37,143 @@ class reservation:      #시간 출발역 도착역 열차종류
                 self.start= str(input("출발역을 입력하세요: "))
                 self.arrive = str(input("도착역을 입력하세요: "))
                 self.kind = str(input("열차종류를 입력하세요: "))
+                self.kind = self.kind.upper()
                 print("{} {} -> {} {}".format(self.time,self.start,self.arrive,self.kind))
                 break
             except:
                 print("다시 입력하세요")
         
     def openit(self,f): # 시간비교
-        self.line = f.readlines()
         for i in range(1,21):                   #선택한 시간과 가장 가까운 시간의 기차표를 구하는 함수
-            str(self.line[i]).split()
-            self.time_list_temp = datetime.datetime.strptime(self.line[i].split()[0], '%H:%M')
-            if self.start == str(self.line[i]).split()[1] and self.arrive == str(self.line[i]).split()[3] and self.kind == str(self.line[i]).split()[4]:
+            str(f[i]).split()
+            self.time_list_temp = datetime.datetime.strptime(f[i].split()[0], '%H:%M')
+            if self.start == str(f[i]).split()[1] and self.arrive == str(f[i]).split()[3] and self.kind == str(f[i]).split()[4]:
                 self.result_list_temp.append(self.time_list_temp)
 
         for i in range(1,21):
-            str(self.line[i]).split()
-            self.time_list_temp = datetime.datetime.strptime(self.line[i].split()[0], '%H:%M')
+            str(f[i]).split()
+            self.time_list_temp = datetime.datetime.strptime(f[i].split()[0], '%H:%M')
 
-            if self.start == str(self.line[i]).split()[1] and self.arrive == str(self.line[i]).split()[3] and self.kind == str(self.line[i]).split()[4]:
+            if self.start == str(f[i]).split()[1] and self.arrive == str(f[i]).split()[3] and self.kind == str(f[i]).split()[4]:
                 self.result_list_temp = np.asarray(self.result_list_temp)
                 self.idx = (np.abs(self.result_list_temp - self.time_temp)).argmin()
 
                 if self.result_list_temp[self.idx] == self.time_list_temp:
-                    print(self.line[i])
+                    print(f[i])
                     self.line_1_temp = i
 
         if self.result_list_temp[self.idx] < self.time_temp:
 
             for i in range(self.line_1_temp+1,21):                   #선택한 시간과 두번째로 가까운 시간의 기차표를 구하는 함수
-                str(self.line[i]).split()
-                self.time_list_temp = datetime.datetime.strptime(self.line[i].split()[0], '%H:%M')
+                str(f[i]).split()
+                self.time_list_temp = datetime.datetime.strptime(f[i].split()[0], '%H:%M')
 
-                if self.start == str(self.line[i]).split()[1] and self.arrive == str(self.line[i]).split()[3] and self.kind == str(self.line[i]).split()[4]:
+                if self.start == str(f[i]).split()[1] and self.arrive == str(f[i]).split()[3] and self.kind == str(f[i]).split()[4]:
                     self.result_up_list_temp.append(self.time_list_temp)
 
             for l in range(self.line_1_temp+1,21):
-                str(self.line[l]).split()
-                self.time_list_temp = datetime.datetime.strptime(self.line[l].split()[0], '%H:%M')
+                str(f[l]).split()
+                self.time_list_temp = datetime.datetime.strptime(f[l].split()[0], '%H:%M')
 
-                if self.start == str(self.line[l]).split()[1] and self.arrive == str(self.line[l]).split()[3] and self.kind == str(self.line[l]).split()[4]:
+                if self.start == str(f[l]).split()[1] and self.arrive == str(f[l]).split()[3] and self.kind == str(f[l]).split()[4]:
                     self.result_up_list_temp = np.asarray(self.result_up_list_temp)
                     self.idx_up = (np.abs(self.result_up_list_temp - self.time_temp)).argmin()
 
                     if self.result_up_list_temp[self.idx_up] == self.time_list_temp:
-                        print(self.line[l])
+                        print(f[l])
                         self.line_2_temp = l
 
         elif self.result_list_temp[self.idx] > self.time_temp:
 
             for i in range(1,self.line_1_temp-1):                   #선택한 시간과 두번째로 가까운 시간의 기차표를 구하는 함수
-                str(self.line[i]).split()
-                self.time_list_temp = datetime.datetime.strptime(self.line[i].split()[0], '%H:%M')
+                str(f[i]).split()
+                self.time_list_temp = datetime.datetime.strptime(f[i].split()[0], '%H:%M')
 
-                if self.start == str(self.line[i]).split()[1] and self.arrive == str(self.line[i]).split()[3] and self.kind == str(self.line[i]).split()[4]:
+                if self.start == str(f[i]).split()[1] and self.arrive == str(f[i]).split()[3] and self.kind == str(f[i]).split()[4]:
                     self.result_down_list_temp.append(self.time_list_temp)
 
             for l in range(1,self.line_1_temp-1):
-                str(self.line[l]).split()
-                self.time_list_temp = datetime.datetime.strptime(self.line[l].split()[0], '%H:%M')
+                str(f[l]).split()
+                self.time_list_temp = datetime.datetime.strptime(f[l].split()[0], '%H:%M')
 
-                if self.start == str(self.line[l]).split()[1] and self.arrive == str(self.line[l]).split()[3] and self.kind == str(self.line[l]).split()[4]:
+                if self.start == str(f[l]).split()[1] and self.arrive == str(f[l]).split()[3] and self.kind == str(f[l]).split()[4]:
                     self.result_down_list_temp = np.asarray(self.result_down_list_temp)
                     self.idx_down = (np.abs(self.result_down_list_temp - self.time_temp)).argmin()
 
                     if self.result_down_list_temp[self.idx_down] == self.time_list_temp:
-                        print(self.line[l])
+                        print(f[l])
                         self.line_2_temp = l
         
 
-    def choose(self): # 위에꺼 예약
-        self.line[self.line_1_temp] = [self.line[self.line_1_temp].split(' ')]
-        if int(self.line[self.line_1_temp][0][5]) == 0:
+    def choose(self,f): # 위에꺼 예약
+        if int(f[self.line_1_temp].split()[5]) == 0:
             print("매진이어서 예약할 수 없습니다.")
         else:
-            self.line[self.line_1_temp][0][5] = int(self.line[self.line_1_temp][0][5]) - 1
+            f[self.line_1_temp] = f[self.line_1_temp].replace(f[self.line_1_temp].split()[5],str(int(f[self.line_1_temp].split()[5]) - 1))
             print("예약 완료")
-            print(self.line[self.line_1_temp][0])
-            return(self.line)
+            print(f[self.line_1_temp])
+            return(f)
 
-    def temp1(self):
-        return str(self.line[self.line_1_temp])
+    def choose_list1(self,choose_list):
+        choose_list.append(self.line_1_temp)
+        return (choose_list)
 
-    def choose2(self): # 아래꺼 예약
-        self.line[self.line_2_temp] = [self.line[self.line_2_temp].split(' ')]
-        if int(self.line[self.line_2_temp][0][5]) == 0:
+    def temp1(self,f):
+        return f[self.line_1_temp]
+
+    def choose2(self,f): # 아래꺼 예약
+        if int(f[self.line_2_temp].split()[5]) == 0:
             print("매진이어서 예약할 수 없습니다.")
         else:
-            self.line[self.line_2_temp][0][5] = int(self.line[self.line_2_temp][0][5]) - 1
+            f[self.line_2_temp] = f[self.line_2_temp].replace(f[self.line_2_temp].split()[5],str(int(f[self.line_2_temp].split()[5]) - 1))
             print("예약 완료")
-            print(self.line[self.line_2_temp][0])
-            return(self.line)
+            print(f[self.line_2_temp])
+            return(f)
 
-    def temp2(self):
-        return str(self.line[self.line_2_temp])
+    def temp2(self,f):
+        return f[self.line_2_temp]
+
+    def choose_list2(self,choose_list):
+        choose_list.append(self.line_2_temp)
+        return (choose_list)
 
 
-    def confirm(self,line): # 예매 취소
+    def confirm(self,f,list_temp,choose_list): # 예매 취소
             while True:
-                self.nono = int(input("취소하시겠습니까(예1,아니오2,뒤로가기3): "))
+                self.nono = int(input("취소하시겠습니까(예1 ,아니오2,뒤로가기3): "))
                 if self.nono == 1:
-                    print("예매를 취소합니다")
-                    line = open("C:/Users/이수혁/Desktop/TrainList.txt",'r')
-                    return line
+                    while True:
+                        try:
+                            for i in range (1,len(list_temp)+1,1):
+                                print(i)
+                                print(list_temp[i-1])
+                            while True:
+                                choice = int(input("삭제하고자 하는 표를 입력하세요(0을 입력 = 뒤로가기 : "))
+                                if choice != 0:
+                                    try:
+                                        f[choose_list[choice - 1]] = f[choose_list[choice - 1]].replace(f[choose_list[choice - 1]].split()[5],str(int(f[choose_list[choice - 1]].split()[5]) + 1))
+                                        list_temp.pop(choice - 1)
+                                        choose_list.pop(choice - 1)
+                                        print("취소 완료")
+                                        break
+                                    except:
+                                        print("다시 입력하세요")
+                                elif choice == 0:
+                                    break                    
+                            return f
+                        except:
+                            print("다시 입력하세요")
+                    break
                 elif self.nono == 2:
-                    return line
+                    return f
                 elif self.nono == 3:
-                    return line
+                    return f
                 else:
                     print("1~2 사이의 값을 입력하세요")
-    
+    def confirm1(self,list_temp):
+        return list_temp
+    def confirm2(self,choose_list):
+        return choose_list    
 
     def check(self,checkList): # 예매현황 보여주기
         print("예약 현황입니다.")
@@ -152,17 +182,21 @@ class reservation:      #시간 출발역 도착역 열차종류
 
                     
     def whole(self,f): # 기차정보 보여주기
-        self.lines = []
-        self.lines = f.read()
-        print(self.lines)
+        for i in range(21):
+            print(f[i])
     def whole2(self,line):
         for i in range(21):
             print(line[i])
 
+f = open("C:/Users/정세영/Desktop/E-on/.vscode/TrainList.txt",'r')
+f = f.readlines()
+choice_list = []
+for i in range(1,21,1):
+    f[i].split()
+list_temp = []
 while(True):
-    vari1 = int(input("메뉴를 입력해수세요(1:예약, 2:기차정보, 3:예매현황 및 취소, 4:프로그램 종료): ")) # 메인 메뉴
-    f = open("C:/Users/이수혁/Desktop/TrainList.txt",'r')
     a = reservation()
+    vari1 = int(input("메뉴를 입력해수세요(1:예약, 2:기차정보, 3:예매현황 및 취소, 4:프로그램 종료): ")) # 메인 메뉴
     if vari1 == 4:
         print("프로그램 종료")
         break
@@ -172,23 +206,29 @@ while(True):
         while True:
             dothis = int(input("위에꺼 예약1,아래꺼 예약2,뒤로가기3: "))
             if dothis == 1:
-                temp = a.choose() # 예약한 기차정보 전체
-                temp_x = temp
-                list_temp = a.temp1() # 예약한 기차표
-                break
+                try:
+                    temp = a.choose(f) # 예약한 기차정보 
+                    list_temp.append(a.temp1(f)) # 예약한 기차표
+                    choice_list = a.choose_list1(choice_list)
+                    break
+                except:
+                    print("예매할 표가 없습니다.")
+                    break
             elif dothis == 2:
-                temp = a.choose2()
-                temp_x = temp
-                list_temp = a.temp2()
-                break
+                try:
+                    temp = a.choose2(f)
+                    temp_x = temp
+                    list_temp.append(a.temp2(f))
+                    choice_list = a.choose_list2(choice_list)
+                    break
+                except:
+                    print("예매할 표가 없습니다.")
+                    break
             elif dothis == 3:
                 break
             else:
                 print("1~3사이의 값을 입력하세요")
     elif vari1 == 2:
-        try:
-            a.whole2(temp)
-        except:
             a.whole(f)
     elif vari1 == 3:
         while True:
@@ -196,10 +236,9 @@ while(True):
             try:
                 if thatnono == 1:
                     a.check(list_temp)
-                    temp = a.confirm(temp)
-                    if temp_x != temp:
-                        del(list_temp)
-
+                    a.confirm(f,list_temp,choice_list)
+                    list_temp = a.confirm1(list_temp)
+                    choice_list = a.confirm2(choice_list)
                     break
                 elif thatnono == 2:
                     break
