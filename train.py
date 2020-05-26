@@ -209,6 +209,8 @@ class reservation:      #시간 출발역 도착역 열차종류
 f = open("C:/Users/이수혁/Desktop/TrainList.txt",'r')
 f = f.readlines()
 choice_list = []
+temp_x = 0
+temp = 0
 for i in range(1,21,1):
     f[i].split()
 list_temp = []
@@ -225,20 +227,27 @@ while(True):
             dothis = int(input("위에꺼 예약1,아래꺼 예약2,뒤로가기3: "))
             if dothis == 1:
                 try:
-                    temp = a.choose(f) # 예약한 기차정보 
-                    list_temp.append(a.temp1(f)) # 예약한 기차표
-                    choice_list = a.choose_list1(choice_list)
-                    break
+                    temp = a.choose(f) # 예약한 기차정보
+                    if temp == temp_x:
+                        break
+                    else:
+                        list_temp.append(a.temp1(f)) # 예약한 기차표
+                        choice_list = a.choose_list1(choice_list)
+                        temp_x = temp
+                        break
                 except:
                     print("예매할 표가 없습니다.")
                     break
             elif dothis == 2:
                 try:
                     temp = a.choose2(f)
-                    temp_x = temp
-                    list_temp.append(a.temp2(f))
-                    choice_list = a.choose_list2(choice_list)
-                    break
+                    if temp == temp_x:
+                        break
+                    else:
+                        temp_x = temp
+                        list_temp.append(a.temp2(f))
+                        choice_list = a.choose_list2(choice_list)
+                        break
                 except:
                     print("예매할 표가 없습니다.")
                     break
