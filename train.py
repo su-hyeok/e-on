@@ -106,10 +106,16 @@ class reservation:      #시간 출발역 도착역 열차종류
         
 
     def choose(self,f): # 위에꺼 예약
-        if int(f[self.line_1_temp].split()[5]) == 0:
+        if str(f[self.line_1_temp].split()[5]) == '매진':
             print("매진이어서 예약할 수 없습니다.")
+            return(f)
         else:
+            t = '매진'
+            q = '0'
             f[self.line_1_temp] = f[self.line_1_temp].replace(f[self.line_1_temp].split()[5],str(int(f[self.line_1_temp].split()[5]) - 1))
+            if int(f[self.line_1_temp].split()[5]) == 0:
+                f[self.line_1_temp] = f[self.line_1_temp].replace(f[self.line_1_temp].split()[5].split()[0],t)
+                f[self.line_1_temp] = f[self.line_1_temp].replace(str(f[self.line_1_temp].split()[5]),q,1)
             print("예약 완료")
             print(f[self.line_1_temp])
             return(f)
@@ -124,9 +130,14 @@ class reservation:      #시간 출발역 도착역 열차종류
     def choose2(self,f): # 아래꺼 예약
         if int(f[self.line_2_temp].split()[5]) == 0:
             print("매진이어서 예약할 수 없습니다.")
+            return(f)
         else:
+            t = '매진'
+            q = '0'
             f[self.line_2_temp] = f[self.line_2_temp].replace(f[self.line_2_temp].split()[5],str(int(f[self.line_2_temp].split()[5]) - 1))
-            print("예약 완료")
+            if int(f[self.line_2_temp].split()[5]) == 0:
+                f[self.line_2_temp] = f[self.line_2_temp].replace(f[self.line_2_temp].split()[5].split()[0],t)
+                f[self.line_2_temp] = f[self.line_2_temp].replace(str(f[self.line_2_temp].split()[5]),q,1)
             print(f[self.line_2_temp])
             return(f)
 
@@ -151,11 +162,18 @@ class reservation:      #시간 출발역 도착역 열차종류
                                 choice = int(input("삭제하고자 하는 표를 입력하세요(0을 입력 = 뒤로가기 : "))
                                 if choice != 0:
                                     try:
-                                        f[choose_list[choice - 1]] = f[choose_list[choice - 1]].replace(f[choose_list[choice - 1]].split()[5],str(int(f[choose_list[choice - 1]].split()[5]) + 1))
-                                        list_temp.pop(choice - 1)
-                                        choose_list.pop(choice - 1)
-                                        print("취소 완료")
-                                        break
+                                        if str(f[choose_list[choice - 1]].split()[5]) != '매진':
+                                            f[choose_list[choice - 1]] = f[choose_list[choice - 1]].replace(f[choose_list[choice - 1]].split()[5],str(int(f[choose_list[choice - 1]].split()[5]) + 1))
+                                            list_temp.pop(choice - 1)
+                                            choose_list.pop(choice - 1)
+                                            print("취소 완료")
+                                            break
+                                        else:
+                                            f[choose_list[choice - 1]] = f[choose_list[choice - 1]].replace(f[choose_list[choice - 1]].split()[5],str(1))
+                                            list_temp.pop(choice - 1)
+                                            choose_list.pop(choice - 1)
+                                            print("취소 완료")
+                                            break
                                     except:
                                         print("다시 입력하세요")
                                 elif choice == 0:
@@ -188,7 +206,7 @@ class reservation:      #시간 출발역 도착역 열차종류
         for i in range(21):
             print(line[i])
 
-f = open("C:/Users/이수혁/Desktop/TrainList.txt",'r')
+f = open("C:/Users/정세영/Desktop/E-on/.vscode/TrainList.txt",'r')
 f = f.readlines()
 choice_list = []
 for i in range(1,21,1):
