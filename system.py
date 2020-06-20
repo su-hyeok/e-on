@@ -77,7 +77,7 @@ class application:
                     print(self.array[i])
 
     def modify(self):
-        self.array = np.array(self.text.DB,str)
+
         print(self.array)
         self.change = int(input("수정할 번째를 입력하세요,0은 도서명,1은 저자: "))
         if self.change == 0:
@@ -116,16 +116,15 @@ class application:
                     self.text.DB[i][4] = self.name
                     print(self.text.DB[i])
     def delete(self):
-        self.array = np.array(self.text.DB,str)
         print(self.array)
         self.tt = int(input("삭제할 번째를 입력하세요(위에서부터 0번째):"))
         for i in range(len(self.text.DB)):
             if i == self.tt:
                self.d = np.delete(self.array,(i),axis = 0)
-               print(self.d)
+               self.array = self.d
+               print(self.array)
     def show(self):
-        self.array = np.array(self.text.DB,str)
-        print(self.array)
+        print(self.d)
     def save(self):
         np.save("C:/Users/이수혁/Desktop/1.txt",self.text.DB)
         self.saveload = np.load("C:/Users/이수혁/Desktop/1.txt.npy")
@@ -133,6 +132,7 @@ class application:
 
 
     def menu(self):
+        self.array = np.array(self.text.DB,str)
         print("""
     ==================
     1.도서 추가
