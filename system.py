@@ -124,11 +124,22 @@ class application:
                self.array = self.d
                print(self.array)
     def show(self):
-        print(self.d)
+        self.count = int(input("5번 함수를 4번기능을 수행했으면 2번을 그렇지 않으면 1번을 눌러주세여: "))
+        if self.count == 1:
+            print(self.array)
+        else:
+            print(self.d)
+               
     def save(self):
-        np.save("C:/Users/이수혁/Desktop/1.txt",self.text.DB)
-        self.saveload = np.load("C:/Users/이수혁/Desktop/1.txt.npy")
-        print(self.saveload)
+        self.count = int(input("4번기능을 수행했으면 2번을 그렇지 않으면 1번을 눌러주세여: "))
+        if self.count == 1:
+            np.save("C:/Users/이수혁/Desktop/1.txt",self.array)
+            self.saveload = np.load("C:/Users/이수혁/Desktop/1.txt.npy")
+            print(self.saveload)
+        else:
+            np.save("C:/Users/이수혁/Desktop/1.txt",self.d)
+            self.saveload = np.load("C:/Users/이수혁/Desktop/1.txt.npy")
+            print(self.saveload)
 
 
     def menu(self):
