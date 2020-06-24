@@ -116,30 +116,20 @@ class application:
                     self.text.DB[i][4] = self.name
                     print(self.text.DB[i])
     def delete(self):
-        print(self.array)
+        print(self.text.DB)
         self.tt = int(input("삭제할 번째를 입력하세요(위에서부터 0번째):"))
         for i in range(len(self.text.DB)):
             if i == self.tt:
-               self.d = np.delete(self.array,(i),axis = 0)
-               self.array = self.d
-               print(self.array)
+               self.text.DB = np.delete(self.text.DB,(i),axis = 0) 
+               print(self.text.DB)
     def show(self):
-        self.count = int(input("5번 함수를 4번기능을 수행했으면 2번을 그렇지 않으면 1번을 눌러주세여: "))
-        if self.count == 1:
-            print(self.array)
-        else:
-            print(self.d)
+        print(self.text.DB)
                
     def save(self):
-        self.count = int(input("4번기능을 수행했으면 2번을 그렇지 않으면 1번을 눌러주세여: "))
-        if self.count == 1:
-            np.save("C:/Users/이수혁/Desktop/1.txt",self.array)
-            self.saveload = np.load("C:/Users/이수혁/Desktop/1.txt.npy")
-            print(self.saveload)
-        else:
-            np.save("C:/Users/이수혁/Desktop/1.txt",self.d)
-            self.saveload = np.load("C:/Users/이수혁/Desktop/1.txt.npy")
-            print(self.saveload)
+        np.save("C:/Users/이수혁/Desktop/1.txt",self.text.DB)
+        self.saveload = np.load("C:/Users/이수혁/Desktop/1.txt.npy")
+        print(self.saveload)
+    
 
 
     def menu(self):
