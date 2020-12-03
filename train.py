@@ -206,7 +206,7 @@ class reservation:      #시간 출발역 도착역 열차종류
         for i in range(21):
             print(line[i])
 
-f = open("C:/Users/이수혁/Desktop/TrainList.txt",'r')
+f = open("C:/Users/shlee/Desktop/TrainList.txt",'r')
 f = f.readlines()
 choice_list = []
 temp_x = 0
